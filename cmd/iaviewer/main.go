@@ -11,6 +11,7 @@ import (
 
 	"github.com/cosmos/iavl"
 	dbm "github.com/tendermint/tm-db"
+	"github.com/tendermint/tm-db/goleveldb"
 )
 
 // TODO: make this configurable?
@@ -70,7 +71,7 @@ func OpenDB(dir string) (dbm.DB, error) {
 		return nil, fmt.Errorf("cannot cut paths on %s", dir)
 	}
 	name := dir[cut+1:]
-	db, err := dbm.NewGoLevelDB(name, dir[:cut])
+	db, err := goleveldb.NewDB(name, dir[:cut])
 	if err != nil {
 		return nil, err
 	}

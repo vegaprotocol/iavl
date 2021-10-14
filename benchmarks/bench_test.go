@@ -11,6 +11,7 @@ import (
 
 	"github.com/cosmos/iavl"
 	db "github.com/tendermint/tm-db"
+	"github.com/tendermint/tm-db/metadb"
 )
 
 const historySize = 20
@@ -166,7 +167,7 @@ func BenchmarkRandomBytes(b *testing.B) {
 }
 
 type benchmark struct {
-	dbType              db.BackendType
+	dbType              metadb.BackendType
 	initSize, blockSize int
 	keyLen, dataLen     int
 }
@@ -246,7 +247,7 @@ func runBenchmarks(b *testing.B, benchmarks []benchmark) {
 			err error
 		)
 		if bb.dbType != "nodb" {
-			d, err = db.NewDB("test", bb.dbType, dirName)
+			d, err = metadb.NewDB("test", bb.dbType, dirName)
 			require.NoError(b, err)
 			defer d.Close()
 		}

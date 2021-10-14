@@ -18,6 +18,7 @@ import (
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/pkg/errors"
 	dbm "github.com/tendermint/tm-db"
+	"github.com/tendermint/tm-db/metadb"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/grpclog"
 
@@ -28,7 +29,7 @@ import (
 var (
 	dbDataDir       = flag.String("datadir", "", "The database data directory")
 	dbName          = flag.String("db-name", "", "The database name")
-	dbBackend       = flag.String("db-backend", string(dbm.GoLevelDBBackend), "The database backend")
+	dbBackend       = flag.String("db-backend", string(metadb.GoLevelDBBackend), "The database backend")
 	version         = flag.Int64("version", 0, "The IAVL version to load")
 	cacheSize       = flag.Int64("cache-size", 10000, "Tree cache size")
 	gRPCEndpoint    = flag.String("grpc-endpoint", "localhost:8090", "The gRPC server endpoint (host:port)")
@@ -162,7 +163,7 @@ func openDB() (dbm.DB, error) {
 		return nil, errors.New("database datadir cannot be empty")
 	}
 
-	db, err = dbm.NewDB(*dbName, dbm.BackendType(*dbBackend), *dbDataDir)
+	db, err = metadb.NewDB(*dbName, metadb.BackendType(*dbBackend), *dbDataDir)
 
 	if err != nil {
 		return nil, err

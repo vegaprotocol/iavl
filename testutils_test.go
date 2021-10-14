@@ -12,6 +12,8 @@ import (
 	cmn "github.com/cosmos/iavl/common"
 	"github.com/stretchr/testify/require"
 	db "github.com/tendermint/tm-db"
+	"github.com/tendermint/tm-db/memdb"
+	"github.com/tendermint/tm-db/metadb"
 )
 
 func randstr(length int) string {
@@ -34,7 +36,7 @@ func b2i(bz []byte) int {
 
 // Construct a MutableTree
 func getTestTree(cacheSize int) (*MutableTree, error) {
-	return NewMutableTreeWithOpts(db.NewMemDB(), cacheSize, nil)
+	return NewMutableTreeWithOpts(memdb.NewDB(), cacheSize, nil)
 }
 
 // Convenience for a new node
@@ -115,7 +117,7 @@ func expectTraverse(t *testing.T, trav traverser, start, end string, count int) 
 }
 
 func BenchmarkImmutableAvlTreeMemDB(b *testing.B) {
-	db, err := db.NewDB("test", db.MemDBBackend, "")
+	db, err := metadb.NewDB("test", metadb.MemDBBackend, "")
 	require.NoError(b, err)
 	benchmarkImmutableAvlTreeWithDB(b, db)
 }

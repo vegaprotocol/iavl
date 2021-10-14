@@ -12,6 +12,7 @@ import (
 	"github.com/stretchr/testify/require"
 
 	db "github.com/tendermint/tm-db"
+	"github.com/tendermint/tm-db/goleveldb"
 )
 
 func TestRandomOperations(t *testing.T) {
@@ -100,7 +101,7 @@ func testRandomOperations(t *testing.T, randSeed int64) {
 	require.NoError(t, err)
 	defer os.RemoveAll(tempdir)
 
-	levelDB, err := db.NewGoLevelDB("leveldb", tempdir)
+	levelDB, err := goleveldb.NewDB("leveldb", tempdir)
 	require.NoError(t, err)
 
 	tree, version, _ := loadTree(levelDB)

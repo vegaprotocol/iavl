@@ -9,7 +9,7 @@ import (
 
 	"github.com/cosmos/iavl"
 	"github.com/stretchr/testify/suite"
-	dbm "github.com/tendermint/tm-db"
+	"github.com/tendermint/tm-db/metadb"
 	"google.golang.org/grpc"
 
 	pb "github.com/cosmos/iavl/proto"
@@ -25,7 +25,7 @@ type ServerTestSuite struct {
 }
 
 func (suite *ServerTestSuite) SetupTest() {
-	db, err := dbm.NewDB("test", dbm.MemDBBackend, "")
+	db, err := metadb.NewDB("test", metadb.MemDBBackend, "")
 
 	suite.NoError(err)
 
